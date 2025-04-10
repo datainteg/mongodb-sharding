@@ -12,7 +12,7 @@ services:
     container_name: mongos
     ports:
       - "27017:27017"
-    command: mongos --configdb cvp/config1:27018,config2:27019,config3:27020 --port 27017 --bind_ip_all
+    command: mongos --configdb config/config1:27018,config2:27019,config3:27020 --port 27017 --bind_ip_all
     volumes:
       - ./data/MongoDB:/data/db
     restart: always
@@ -24,7 +24,7 @@ services:
     container_name: config1
     ports:
       - "27018:27017"
-    command: mongod --configsvr --replSet cvp --port 27017 --bind_ip_all
+    command: mongod --configsvr --replSet config --port 27017 --bind_ip_all
     volumes:
       - ./data/config1:/data/configdb
     restart: always
@@ -36,7 +36,7 @@ services:
     container_name: config2
     ports:
       - "27019:27017"
-    command: mongod --configsvr --replSet cvp --port 27017 --bind_ip_all
+    command: mongod --configsvr --replSet config --port 27017 --bind_ip_all
     volumes:
       - ./data/config2:/data/configdb
     restart: always
@@ -48,7 +48,7 @@ services:
     container_name: config3
     ports:
       - "27020:27017"
-    command: mongod --configsvr --replSet cvp --port 27017 --bind_ip_all
+    command: mongod --configsvr --replSet config --port 27017 --bind_ip_all
     volumes:
       - ./data/config3:/data/configdb
     restart: always
