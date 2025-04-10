@@ -1,0 +1,27 @@
+# -----------------------------------------------------------------------------
+# File        : docker-compose.yml
+# Owner       : Akshay Thakare
+# Created On  : 2025-04-08
+# Description : MongoDB Sharding Setup using Docker Compose
+# -----------------------------------------------------------------------------
+version: '3'
+services:
+  MongoDB:
+    image: bitnami/mongodb:7.0
+    container_name: mongos
+    ports:
+      - "27021:27017"
+    command: mongos --configdb cvp/config1:27017,config2:27017,config3:27017 --port 27017 --bind_ip_all
+    volumes:
+      - ./data/mongo/MongoDB:/data/db
+    restart: always
+    networks:
+      - mongodb-sharding
+
+networks:
+  mongodb-sharding:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.27.0.0/16"
