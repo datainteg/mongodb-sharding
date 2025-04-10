@@ -1,0 +1,51 @@
+# -----------------------------------------------------------------------------
+# File        : docker-compose-shard3.yml
+# Owner       : Akshay Thakare
+# Description : MongoDB Shard3 Replica Set (Primary, Secondary, Arbiter)
+# -----------------------------------------------------------------------------
+
+version: '3'
+services:
+  shard3_primary:
+    image: bitnami/mongodb:7.0
+    container_name: shard3_primary
+    command: mongod --shardsvr --replSet shard3ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27301:27017"
+    volumes:
+      - /data/mongo/shard3_primary:/data/db
+    restart: always
+    networks:
+      - mongodb-sharding
+
+  shard3_secondary:
+    image: bitnami/mongodb:7.0
+    container_name: shard3_secondary
+    command: mongod --shardsvr --replSet shard3ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27302:27017"
+    volumes:
+      - /data/mongo/shard3_secondary:/data/db
+    restart: always
+    networks:
+      - mongodb-sharding
+
+  shard3_arbiter:
+    image: bitnami/mongodb:7.0
+    container_name: shard3_arbiter
+    command: mongod --shardsvr --replSet shard3ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27303:27017"
+    volumes:
+      - /data/mongo/shard3_arbiter:/data/db
+    restart: always
+    networks:
+      - mongodb-sharding
+
+networks:
+  mongodb-sharding:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.27.3.0/24"
