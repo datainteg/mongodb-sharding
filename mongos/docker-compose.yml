@@ -11,7 +11,7 @@ services:
     container_name: mongos
     ports:
       - "27021:27017"
-    command: mongos --configdb cvp/config1:27018,config2:27019,config3:27020 --port 27017 --bind_ip_all
+    command: mongos --configdb config/config1:27018,config2:27019,config3:27020 --port 27017 --bind_ip_all
     volumes:
       - ./data/mongo/MongoDB:/data/db
     restart: always
